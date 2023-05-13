@@ -1,0 +1,78 @@
+
+
+
+  <div class="container">
+
+    <div class="form-container">
+      <h1 class="colorful-header">Validatia Beta</h1>
+
+      <form>
+        <div>
+          <label for="inputField">IP Address</label>
+          <input type="text" id="inputField" [(ngModel)]="ipAddress" name="inputText" required>
+        </div>
+
+        <div class="custom-dropdown-container">
+          <button (click)="toggleDropdown()" class="custom-dropdown-button">
+            {{ selectedMode || 'Select Node Type' }}
+          </button>
+          <div [ngClass]="{ show: dropdownVisible }" class="custom-dropdown-menu">
+            <a (click)="selectMode('light')">Light</a>
+            <a (click)="selectMode('full')">Full</a>
+            <a (click)="selectMode('bridge')">Bridge</a>
+          </div>
+        </div>
+
+        <div>
+          <button type="submit " [disabled]="!ipAddress || !selectedMode" (click)="onSubmit()">Submit</button>
+        </div>
+      </form>
+    </div>
+
+
+    <div *ngIf="isLoading" class="note-box,spinner-container">
+      <div class="spinner"></div>
+      <p>
+        Validatia platform is an open-source and transparent community platform. User data is not collected or stored.
+        Feel free to use it.
+      </p>
+    </div>
+
+
+    <div class="big-box" *ngIf="showNodeInfo">
+      <h2>Node Information</h2>
+      <div class="inner-boxes">
+        <div class="left-box">
+          <div class="styled-paragraphs">
+            <p>Current head block : {{currentHead}}</p>
+            <p>Your head block : {{yourHead}}</p>
+            <p
+              [style.background-color]="synchronization ? 'green' : 'red'"> {{synchronization ? 'Synced' : 'Not Synced'}}</p>
+            <p
+              [style.background-color]="nodeWorkingStatus ? 'green' : 'red'">{{nodeWorkingStatus ? 'Working' : 'Not working'}}</p>
+            <p> Balance: {{balance}} Tia</p>
+            <p>Node Type: {{nodeType}}</p>
+            <p>Network Type: blockspacerace-0</p>
+          </div>
+
+
+        </div>
+        <div class="right-box">
+          <div class="styled-paragraphs">
+            <p>Download Speed:  {{downloadSpeed}}</p>
+            <p>Upload Speed:  {{uploadSpeed}}</p>
+            <p>Location City:  {{city}}</p>
+            <p>Organization of the Server:  {{organization}}</p>
+
+            <p>Total Ram  {{totalRam}}</p>
+            <p>Used/Total  {{usedRam}}/{{totalRam}}</p>
+            <p>Total CPU  {{totalCpu}}</p>
+            <p>Celestia CPU Percentage  {{celestiaCpuUsagePercentage}}</p>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
