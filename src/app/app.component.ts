@@ -40,7 +40,6 @@ export class AppComponent {
   async onSubmit() {
     this.isLoading = true;
     await Promise.all([this.getSpeed(), this.getLocation(), this.getBalance(), this.cpuRamUsage(), this.cpuCelestiaPercent(),
-      this.getHeadInfo(),
       this.exportAuthToken(),
       this.getSamplerStats(),]);
 
@@ -132,8 +131,10 @@ export class AppComponent {
   }
 
 
-  async getBalance() {
-    await this.http.get<{ denom: string; amount: string }>(`http://${this.ipAddress}:26659/balance`).subscribe(
+ async getBalance() {
+    await this.http.post<{ denom: string; amount: string }>(`http://${this.ipAddress}:8080/getBalance`, {
+      "IpAddress": this.ipAddress,
+    }).subscribe(
       (response) => {
         console.log('Response:', response);
         console.log(this.selectedMode)
@@ -145,18 +146,8 @@ export class AppComponent {
       }
     );
   }
-
-  async getHeadInfo() {
-    await this.http.get<BlockData>(`http://${this.ipAddress}:26659/head`).subscribe(
-      (response) => {
-        console.log("ResponseL", response.header.version)
-      }, (error) => {
-        console.log("Error:", error);
-        alert("Make Sure your node is running and all required port is opened.")
-      }
-    );
-  }
-
+        
+        
   async exportAuthToken() {
     await this.http.post<{ Token: string; }>(`http://${this.ipAddress}:8080/exportAuthToken`, {
       "NodeType": this.selectedMode,
