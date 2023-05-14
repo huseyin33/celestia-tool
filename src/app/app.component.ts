@@ -127,6 +127,7 @@ export class AppComponent {
   // Select a mode and hide the custom drop-down menu
   selectMode(mode: string) {
     this.selectedMode = mode;
+    this.nodeType = mode.toUpperCase();
     this.dropdownVisible = false;
   }
 
